@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="base/css.css"/>
+	<style>
+		body{background:url(img/2.jpg) no-repeat; background-size:100%; height:3000px; background-color:#03060b;}
+		.head{ width:600px; height:50px; position:fixed; left:50%; top:50px; margin-left:-300px; z-index:999;}
+		.head li{float:left; width:150px; height:50px; text-align:center; line-height:50px;}
+		.head #active{width:150px; height:50px; background:#b78b34; position:absolute; left:0; top:0; border-radius:20px; opacity:.5;}
+		.portrait{width:240px; position:absolute; left:50%; top:150px; margin-left:-100px; font-size:20px;}
+		.portrait div{width:200px; height:200px; overflow: hidden; border-radius:50%;}
+		.portrait div img{width:200px;}
+		.portrait li{width:240px; height:40px; line-height:40px; overflow: hidden;}
+		.portrait li span{width:120px; display:block; float:left;}
+		.portrait li a{width:120px; display:block; float:left;}
+	</style>
+	<script>
+		function ttb(obj,dis){
+			var n=0;
+			var left=obj.offsetLeft;
+			clearInterval(obj.timer);
+			obj.timer=setInterval(function(){
+				n+=(dis-left)/30;
+				n*=0.82;
+				left+=n;
+				if(Math.round(n)==0 && Math.round(left)==dis){
+					clearInterval(obj.timer);
+				}
+				obj.style.left=left+n+'px';
+			},30);
+		}
+		window.onload=function(){
+			var oUl=document.getElementById('head');
+			var aLi=oUl.children;
+			var oActive=document.getElementById('active');
+			for(var i=0; i<aLi.length-1; i++){
+				aLi[i].onmouseover=function(){
+					this.style.color='blue';
+					this.style.lineHeight=30+'px';
+					ttb(oActive,this.offsetLeft);
+				};
+				aLi[i].onmouseout=function(){
+					this.style.color='#d4d2d3';
+					this.style.lineHeight=50+'px';
+				}
+			}
+		};
+
+	</script>
+</head>
+<body>
+	<!-- 头部 -->
+	<ul class="head" id="head">
+		<li>个人简介</li>
+		<li>爱好</li>
+		<li>作品</li>
+		<li>相册</li>
+		<li id="active"></li>
+	</ul>
+	<!-- 头像 -->
+	<div class="portrait">
+		<div>
+			<img src="img/3.jpg"/>
+		</div>
+		<ul>
+			<li><span>Full name:</span><a href="http://user.qzone.qq.com/1013476784/infocenter?ptsig=df1XduWgfPNzjZj*w8VscEvHvZNkpYGhFaHFvHNqWpM_">张涛</a></li>
+			<li><span>Age:</span><a href="javaScript:;">23</a></li>
+			<li><span>hobby:</span><a href="javaScript:;">汽车</a></li>
+			<li><span>address:</span><a href="javaScript:;">河南.商丘</a></li>
+			<li><span>QQ:</span><a href="javaScript:;">1013476784</a></li>
+		</ul>
+	</div>
+	<!-- 爱好 -->
+	<div id=""></div>
+</body>
+</html>

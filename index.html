@@ -1,54 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<link rel="stylesheet" href="base/css.css"/>
-	<style>
-		body{background:url(img/2.jpg) no-repeat; background-size:100%; height:3000px; background-color:#03060b;}
-		.head{ width:600px; height:50px; position:fixed; left:50%; top:50px; margin-left:-300px; z-index:999;}
-		.head li{float:left; width:150px; height:50px; text-align:center; line-height:50px;}
-		.head #active{width:150px; height:50px; background:#b78b34; position:absolute; left:0; top:0; border-radius:20px; opacity:.5;}
-		.portrait{width:240px; position:absolute; left:50%; top:150px; margin-left:-100px; font-size:20px;}
-		.portrait div{width:200px; height:200px; overflow: hidden; border-radius:50%;}
-		.portrait div img{width:200px;}
-		.portrait li{width:240px; height:40px; line-height:40px; overflow: hidden;}
-		.portrait li span{width:120px; display:block; float:left;}
-		.portrait li a{width:120px; display:block; float:left;}
-	</style>
-	<script>
-		function ttb(obj,dis){
-			var n=0;
-			var left=obj.offsetLeft;
-			clearInterval(obj.timer);
-			obj.timer=setInterval(function(){
-				n+=(dis-left)/30;
-				n*=0.82;
-				left+=n;
-				if(Math.round(n)==0 && Math.round(left)==dis){
-					clearInterval(obj.timer);
-				}
-				obj.style.left=left+n+'px';
-			},30);
-		}
-		window.onload=function(){
-			var oUl=document.getElementById('head');
-			var aLi=oUl.children;
-			var oActive=document.getElementById('active');
-			for(var i=0; i<aLi.length-1; i++){
-				aLi[i].onmouseover=function(){
-					this.style.color='blue';
-					this.style.lineHeight=30+'px';
-					ttb(oActive,this.offsetLeft);
-				};
-				aLi[i].onmouseout=function(){
-					this.style.color='#d4d2d3';
-					this.style.lineHeight=50+'px';
-				}
-			}
-		};
-
-	</script>
+	<link rel="stylesheet" href="base/zp.css"/>
+	<script src="js/move1.js"></script>
+	<script src="js/zp.js"></script>
 </head>
 <body>
 	<!-- 头部 -->
@@ -62,7 +20,7 @@
 	<!-- 头像 -->
 	<div class="portrait">
 		<div>
-			<img src="img/3.jpg"/>
+			<img src="img/0.JPG"/>
 		</div>
 		<ul>
 			<li><span>Full name:</span><a href="http://user.qzone.qq.com/1013476784/infocenter?ptsig=df1XduWgfPNzjZj*w8VscEvHvZNkpYGhFaHFvHNqWpM_">张涛</a></li>
@@ -73,6 +31,51 @@
 		</ul>
 	</div>
 	<!-- 爱好 -->
-	<div id=""></div>
+	<div class="k"></div>
+	<ul class="cq" id="cq">
+		<li><span>汽车</span><img src="img1/1.JPG"/></li>
+		<li><span>汽车</span><img src="img1/2.JPG"/></li>
+		<li><span>汽车</span><img src="img1/3.JPG"/></li>
+		<li><span>汽车</span><img src="img1/4.JPG"/></li>
+		<li><span>汽车</span><img src="img1/5.JPG"/></li>
+		<li><span>汽车</span><img src="img1/6.JPG"/></li>
+		<li><span>汽车</span><img src="img1/7.JPG"/></li>
+		<li><span>汽车</span><img src="img1/8.JPG"/></li>
+		<li><span>汽车</span><img src="img1/9.JPG"/></li>
+		<li><span>汽车</span><img src="img1/10.JPG"/></li>
+		<li><span>汽车</span><img src="img1/11.JPG"/></li>
+		<li><span>汽车</span><img src="img1/12.JPG"/></li>
+		<li><span>汽车</span><img src="img1/13.JPG"/></li>
+		<li><span>汽车</span><img src="img1/14.JPG"/></li>
+		<li><span>汽车</span><img src="img1/15.JPG"/></li>
+		<li><span>汽车</span><img src="img1/26.JPG"/></li>
+		<li><span>汽车</span><img src="img1/27.JPG"/></li>
+		<li><span>汽车</span><img src="img1/28.JPG"/></li>
+	</ul>
+	<div id="show" class="show">
+		<ul class="zp">
+			<li class="active"><a>3D爆炸</a></li>
+			<li><a>分页运动</a></li>
+			<li><a>3D旋转</a></li>
+			<li><a>官网分页</a></li>
+		</ul>
+		<div id="box1" style="display:block"></div>
+		<div>
+			<input type="button" value="下一页" id="btn"/>
+			<div id="div1">
+				<img src="img1/1.JPG" class="left1"/>
+			    <img src="img1/2.JPG" class="left2"/>
+			    <img src="img1/3.JPG" class="min"/>
+			    <img src="img1/4.JPG" class="right2"/>
+			    <img src="img1/5.JPG" class="right1"/>
+			    <img src="img1/6.JPG"/>
+			    <img src="img1/7.JPG"/>
+			    <img src="img1/8.JPG"/>
+			    <img src="img1/9.JPG"/>
+			</div>
+		</div>
+		<ul id="box"></ul>
+		<div id="box2"></div>
+	</div>
 </body>
 </html>

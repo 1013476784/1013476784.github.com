@@ -22,15 +22,37 @@ function getPI(obj,ev){
 	//var oLeft=document.documentElement.scrollLeft||document.body.scrollLeft;
 	var x=obj.offsetLeft+w/2-(ev.clientX);
 	var y=obj.offsetTop+h/2-(ev.clientY+oTop);
-	console.log(w);
 	return Math.round((Math.atan2(y,x)*180/Math.PI+180)/90)%4;
-
+}
+function getStyle(obj,name){
+	if(obj.currentStyle){
+		return obj.currentStyle[name];
+	}else{
+		return getComputedStyle(obj,false)[name];
+	}
 }
 window.onload=function(){
 	var oUl=document.getElementById('head');
 	var oCq=document.getElementById('cq');
 	var oActive=document.getElementById('active');
 	var oTop=document.documentElement.scrollTop||document.body.scrollTop;
+	(function(){
+		var oShow=document.getElementById('show');
+		var Amx=oShow.children;
+		var aLi=Amx[0].getElementsByTagName('li');
+		for(var i=0; i<aLi.length; i++){
+			aLi[i].index=i;
+			aLi[i].onclick=function(){
+				for(var i=0; i<aLi.length; i++){
+					aLi[i].className='';
+					Amx[i+1].style.display='none';
+				}
+				this.className='active';
+				Amx[this.index+1].style.display='block';
+				show();
+			};
+		}
+	})();
 	(function(){
 		var aLi=oUl.children;
 		for(var i=0; i<aLi.length-1; i++){
@@ -47,7 +69,7 @@ window.onload=function(){
 				ttb(oActive,this.offsetLeft);
 			};
 			aLi[2].onmouseover=function(){
-				document.documentElement.scrollTop=document.body.scrollTop=1260;
+				document.documentElement.scrollTop=document.body.scrollTop=1160;
 				this.style.color='blue';
 				this.style.lineHeight=30+'px';
 				ttb(oActive,this.offsetLeft);
@@ -56,6 +78,7 @@ window.onload=function(){
 				this.style.color='blue';
 				this.style.lineHeight=30+'px';
 				ttb(oActive,this.offsetLeft);
+				
 			};
 			aLi[i].onmouseout=function(){
 				this.style.color='#d4d2d3';
@@ -69,7 +92,6 @@ window.onload=function(){
 			aLi[i].onmouseenter=function(ev){
 				var oEvent=ev||event;
 				var n=getPI(this,oEvent);
-				console.log(n);
 				switch(n){
 					case 1:
 						this.children[0].style.left=0+'px';
@@ -96,7 +118,6 @@ window.onload=function(){
 			aLi[i].onmouseleave=function(ev){
 				var oEvent=ev||event;
 				var n=getPI(this,oEvent);
-				console.log(n);
 				switch(n){
 					case 1:
 						move(this.children[0],{left:0, top:200});
@@ -114,7 +135,6 @@ window.onload=function(){
 			};
 		}
 	})();
-	
 	(function(){
 		var oDiv=document.getElementById('div1');
 		var oImg=oDiv.getElementsByTagName('img');
@@ -179,47 +199,49 @@ window.onload=function(){
 			}
 		},false);
 	})();
-	(function(){
-		var oBox=document.getElementById('box2');
-		var R=9;
-		var C=5;
-		var inow=0;
-		oBox.innerHTML='';
-		for(var c=0; c<C; c++){
-			for(var r=0; r<R; r++){
-				var oSpan=document.createElement('span');
-				oSpan.style.transition='1s all ease '+200*(c+r)+'ms';
-				oSpan.style.width=oBox.offsetWidth/R+'px';
-				oSpan.style.height=oBox.offsetHeight/C+'px';
-				oSpan.style.top=c*oBox.offsetHeight/C+'px';
-				oSpan.style.left=r*oBox.offsetWidth/R+'px';
-				oSpan.c=c;
-				oSpan.r=r;
-				oSpan.innerHTML='<i class="face"></i><i class="back"></i>';
-				oSpan.children[0].style.backgroundPosition=-r*oBox.offsetWidth/R+'px -'+c*oBox.offsetHeight/C+'px';
-				oSpan.children[1].style.backgroundPosition=-r*oBox.offsetWidth/R+'px -'+c*oBox.offsetHeight/C+'px';
-
-				oBox.appendChild(oSpan);
+	function show(){
+		(function(){
+			var oBox2=document.getElementById('box2');
+			var R=9;
+			var C=5;
+			var inow=0;
+			oBox2.innerHTML='';
+			for(var c=0; c<C; c++){
+				for(var r=0; r<R; r++){
+					var sSpan=document.createElement('span');
+					var W=parseInt(getStyle(oBox2,'width'));
+					var H=parseInt(getStyle(oBox2,'height'));
+					sSpan.style.transition='1s all ease '+200*(c+r)+'ms';
+					sSpan.style.width=W/R+'px';
+					sSpan.style.height=H/C+'px';
+					sSpan.style.top=c*H/C+'px';
+					sSpan.style.left=r*W/R+'px';
+					sSpan.c=c;
+					sSpan.r=r;
+					sSpan.innerHTML='<i class="face"></i><i class="back"></i>';
+					sSpan.children[0].style.backgroundPosition=-r*W/R+'px -'+c*H/C+'px';
+				sSpan.children[1].style.backgroundPosition=-r*W/R+'px -'+c*H/C+'px';
+					oBox2.appendChild(sSpan);
+				}
 			}
-		}
-		var aSpan=oBox.children;
-		oBox.onclick=function(){
-			for(var i=0; i<aSpan.length; i++){
-				aSpan[i].style.transition='1s all ease '+200*(aSpan[i].r+aSpan[i].c)+'ms';
-				aSpan[i].style.transform='perspective(800px) rotateY(180deg)';
-			}
-		};
-
-		aSpan[aSpan.length-1].addEventListener('transitionend',function(){
-			inow++;
-			for (var i = 0; i < aSpan.length; i++) {
-				aSpan[i].style.transition='none';
-				aSpan[i].style.transform='perspective(800px) rotateY(0deg)';
-				aSpan[i].children[0].style.backgroundImage='url(img1/'+inow%9+'.jpg)';
-				aSpan[i].children[1].style.backgroundImage='url(img1/'+(inow+1)%9+'.jpg)';
-			}
-		},false);
-	})();
+			var aSpan=oBox2.children;
+			oBox2.onclick=function(){
+				for(var i=0; i<aSpan.length; i++){
+					aSpan[i].style.transition='1s all ease '+200*(aSpan[i].r+aSpan[i].c)+'ms';
+					aSpan[i].style.transform='perspective(800px) rotateY(180deg)';
+				}
+			};
+			aSpan[aSpan.length-1].addEventListener('transitionend',function(){
+				inow++;
+				for (var i = 0; i < aSpan.length; i++) {
+					aSpan[i].style.transition='none';
+					aSpan[i].style.transform='perspective(800px) rotateY(0deg)';
+					aSpan[i].children[0].style.backgroundImage='url(img1/'+inow%9+'.jpg)';
+					aSpan[i].children[1].style.backgroundImage='url(img1/'+(inow+1)%9+'.jpg)';
+				}
+			},false);
+		})();	
+	}
 	(function(){
 		var oBox=document.querySelector('#box');
 		oBox.onclick=function(){
@@ -247,12 +269,10 @@ window.onload=function(){
 					x=ev.clientY-disY;
 					y=ev.clientX-disX;
 					for(var i=0; i<aLi.length; i++){
-							aLi[i].style.transition='none';
-						    aLi[i].style.transform='perspective(1500px) rotateY('+(360*i/N+y/4)+'deg) translateZ(350px)';
-							oBox.style.transform='perspective(1500px) rotateX('+(-x/4-15)+'deg)';
-						
-					}
-					
+						aLi[i].style.transition='none';
+					    aLi[i].style.transform='perspective(1500px) rotateY('+(360*i/N+y/4)+'deg) translateZ(350px)';
+						oBox.style.transform='perspective(1500px) rotateX('+(-x/4-15)+'deg)';
+					}	
 				}
 				document.onmouseup=function(){
 					document.onmousemove=null;
@@ -261,21 +281,5 @@ window.onload=function(){
 				return false;
 			};
 		};
-	})();
-	(function(){
-		var oShow=document.getElementById('show');
-		var Amx=oShow.children;
-		var aLi=Amx[0].getElementsByTagName('li');
-		for(var i=0; i<aLi.length; i++){
-			aLi[i].index=i;
-			aLi[i].onclick=function(){
-				for(var i=0; i<aLi.length; i++){
-					aLi[i].className='';
-					Amx[i+1].style.display='none';
-				}
-				this.className='active';
-				Amx[this.index+1].style.display='block';
-			};
-		}
-	})();
+	})();	
 };

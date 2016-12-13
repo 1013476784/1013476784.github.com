@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script>
+		(function(){
+			window.addEventListener('resize',chenga,false);
+			function chenga(){
+				document.documentElement.style.fontSize=document.documentElement.clientWidth*20/320+'px';
+			}
+			chenga();
+		})();
+	</script>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+			list-style:none;
+		}
+		#box{
+			width:16rem;
+			height:100%;
+			overflow: hidden;
+			display:-webkit-box;
+			-webkit-box-orient:vertical;
+		}
+		#box #header{
+			height:2rem;
+			background:pink;
+			text-align:center;
+			line-height:2rem;
+			color:red;
+		}
+		#box #section{
+			-webkit-box-flex:1;
+		}
+		#box #section #tp{
+			width:16rem;
+			height:;
+			height:100%;
+			overflow: hidden;
+			position:relative;
+		}
+		#box #section #tp ul{
+			width:324rem;
+			height:100%;
+			overflow: hidden;
+			transform:translate(-16rem);
+		}
+		#box #section #tp ul li{
+			width:16rem;
+			height:100%;
+			float:left;
+		}
+		#box #section #tp div{
+			width:16rem;
+			position:absolute;
+			bottom:2rem;
+			left:0;
+			text-align:center;
+			color:#fff;
+			line-height:2rem;
+			opacity:.5;
+		}
+		#box #section li img{
+			height:100%;
+			width:16rem;
+			height:100%;
+		}
+		#box #footer{
+			width:16rem;
+			background:green;
+			text-align:center;
+			line-height:2rem;
+			color:#fff;
+			position:fixed;
+			left:0;
+			bottom:0;
+		}
+	</style>
+	<script>
+		window.addEventListener('DOMContentLoaded',function(){
+			var oV=document.getElementById('v');
+			var oBox=document.getElementById('box');
+			var oUl=document.getElementById('ul');
+			var aLi=oUl.getElementsByTagName('li');
+			oBox.onclick=function(){
+				oV.play();
+			};
+			var iNow=1;
+			var x=-iNow*aLi[0].offsetWidth;
+			oUl.addEventListener('touchstart',function(ev){
+				var downX=ev.targetTouches[0].pageX;
+				var disX=downX-x;
+				oUl.style.transition='null';
+				function fnMove(ev){
+					x=ev.targetTouches[0].pageX-disX;
+					oUl.style.transform='translate('+x+'px)';
+				}
+				function fnEnd(ev){
+					endX=ev.changedTouches[0].pageX;
+					if(Math.abs(downX-endX)>50){
+						if(downX-endX>0){
+							iNow++;
+							if(iNow==aLi.length){
+								iNow=aLi.length-1;
+							}
+						}else{
+							iNow--;
+							if(iNow<0){
+								iNow=0;
+							}
+						}
+					}
+					x=-iNow*aLi[0].offsetWidth;
+					oUl.style.transition='400ms all linear';
+					oUl.style.transform='translate('+x+'px)';
+					oUl.addEventListener('transitionend',function(){
+						if(iNow==aLi.length-1){
+							iNow=1;
+						}
+						if(iNow==0){
+							iNow=aLi.length-2;
+						}
+						x=-iNow*aLi[0].offsetWidth;
+						oUl.style.transition='none';
+						oUl.style.transform='translate('+x+'px)';
+					},false);
+					document.removeEventListener('touchmove',fnMove,false);
+					document.removeEventListener('touchend',fnEnd,false);
+				}
+				document.addEventListener('touchmove',fnMove,false);
+				document.addEventListener('touchend',fnEnd,false);
+			},false);
+		},false);
+	</script>
+</head>
+<body>
+<div id="box">
+	<audio src="MP3/千千阙歌.mp3" autoplay loop id="v"></audio>
+	<header id="header">嵩山旅行</header>
+	<section id="section">
+		<div id="tp">
+			<ul id="ul">
+				<li><img src="img3/12.JPG"/></li>
+				<li><img src="img3/1.JPG"/></li>
+				<li><img src="img3/2.JPG"/></li>
+				<li><img src="img3/3.JPG"/></li>
+				<li><img src="img3/4.JPG"/></li>
+				<li><img src="img3/5.JPG"/></li>
+				<li><img src="img3/6.JPG"/></li>
+				<li><img src="img3/7.JPG"/></li>
+				<li><img src="img3/8.JPG"/></li>
+				<li><img src="img3/9.JPG"/></li>
+				<li><img src="img3/10.JPG"/></li>
+				<li><img src="img3/11.JPG"/></li>
+				<li><img src="img3/12.JPG"/></li>
+				<li><img src="img3/1.JPG"/></li>
+			</ul>
+			<div>
+				向左右滑动
+			</div>
+		</div>
+	</section>
+	<footer id="footer">先做这一点吧</footer>
+</div>
+	
+</body>
+</html>

@@ -1,109 +1,688 @@
 <!DOCTYPE html>
 <html lang="en">
+<script>
+	(function(win,doc){
+		function change(){
+			doc.documentElement.style.fontSize=doc.documentElement.clientWidth*20/320+
+			'px';
+		}
+		change();
+		win.addEventListener('resize',change,false);
+	})(window,document);
+</script>
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-<style>
-    *{margin:0;padding:0; list-style: none;}
-    ul{
-        width:96rem;
-        position: absolute;
-        left:0;
-        top:0;
-        transform:translateX(-16rem);
-    }
-    li{
-        width:16rem;
-        height: 7.5rem;
-        float: left;
-        font-size:2rem;
-        line-height:7.5rem;
-        text-align: center;
-        color: #fff;
-    }
-    #box{
-        width:16rem;
-        height:7.5rem;
-        overflow: hidden;
-        position: relative;
-    }
-</style>
-<script>
-    (function(win,doc){
-        function change(){
-            doc.documentElement.style.fontSize =doc.documentElement.clientWidth *20/320+'px';
-        }
-        change();
-        win.addEventListener('resize',change,false);
-    })(window,document);
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded',function(){
-        var oUl = document.querySelector('#box ul');
-        var aLi = oUl.children;
-        var iNow = 1;
-        var bReady=true;
-        var x =-aLi[0].offsetWidth;
-        oUl.addEventListener('touchstart',function(ev){
-            if(!bReady){return;}
-            bReady=false;
-            oUl.style.transition = 'none';
-            var disX = ev.targetTouches[0].pageX - x;
-            var downX = ev.targetTouches[0].pageX;
-            function fnMove(ev){
-                x = ev.targetTouches[0].pageX - disX;
-                oUl.style.transform = 'translateX('+x+'px)';
-            }
-            function fnUp(ev){
-                var upX = ev.changedTouches[0].pageX;
-                if(Math.abs(downX - upX)>80){
-//                    向左滑动
-                    if(downX - upX>0){
-                        iNow++;
-                        if(iNow>aLi.length)iNow=aLi.length-1;
-                    }else{
-                        //向右走
-                        iNow--;
-                        if(iNow<0)iNow=0;
-                    }
-                }
-                x=-iNow*aLi[0].offsetWidth;
-                oUl.style.transform = 'translateX('+-iNow*aLi[0].offsetWidth+'px)';
-                oUl.style.transition = '200ms all ease';
-                oUl.addEventListener('transitionend',function(){
-                    if(iNow==5){
-                        iNow=1;
-                    }
-                    if(iNow==0){
-                        iNow=4;
-                    }
-                    x=-iNow*aLi[0].offsetWidth;
-                    oUl.style.transform = 'translateX('+-iNow*aLi[0].offsetWidth+'px)';
-                    oUl.style.transition = 'none';
-                    bReady=true;
-                },false);
-                document.removeEventListener('touchmove',fnMove,false);
-                document.removeEventListener('touchend',fnUp,false);
-            }
-            document.addEventListener('touchmove',fnMove,false);
-            document.addEventListener('touchend',fnUp,false);
-            ev.preventDefault();
-        },false);
-    },false);
-</script>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+			list-style:none;
+		}
+		body,html{
+			width:100%;
+			font-family:'微软雅黑';
+			
+		}
+		#box{
+			width:100%;
+			overflow:hidden;
+		}
+		img{ 
+			vertical-align:top; border:none;
+		}
+		a{
+			text-decoration:none;
+		}
+		#header{
+			width:100%;
+			height:2.5rem;
+			background:url(images/intro_03.png) no-repeat;
+			background-size:100% 100%;
+			overflow: hidden;
+		}
+		#header h1{
+			width:3.675rem;
+			height:1rem;
+			margin-left:2.25rem;
+			margin-top:0.5rem;
+			float:left;
+			font-size:1rem;
+			color:#d51938;
+		}
+		#header div{
+			width:3.25rem;
+			height:1.625rem;
+			background:url(images/intro_04.png) no-repeat;
+			float:left;
+			margin:0.75rem 0 0 0.5rem;
+		}
+		#section{
+			width:16rem;
+			overflow: hidden;
+		}
+		#section .tab{
+			width:112rem;
+			overflow: hidden;
+			transform:translate(-16rem);
+		}
+		#section .tab li{
+			width:16rem;
+			height:6.675rem;
+			float:left;
+		}
+		#section .tab img{
+			width:100%;
+			height:100%;
+		}
+		#section .tab1{
+			width:2.5rem;
+			height:0.2rem;
+			margin-left:6.875rem;
+			margin-top:0.5rem;
+		}
+		#section .tab1 span{
+			display:block;
+			width:0.2rem;
+			height:0.2rem;
+			border-radius:50%;
+			background:#ccc;
+			margin-right:0.2rem;
+			float:left;
+		}
+		#section .tab1 .active{
+			background:#ff4300;
+		}
+		#section .nav{
+			width:100%;
+			overflow: hidden;
+			margin-top:.5rem;
+			margin-left:0.4rem;
+			margin-bottom:0.6rem;
+			margin-right:0.5rem;
+		}
+		#section .nav li{
+			width:3.8rem;
+			height:4rem;
+			float:left;
+			text-align:center;
+		}
+		#section .nav li img{
+			width:2rem;
+			height:2rem;
+		}
+		#section .nav li a{
+			display:block;
+			line-height:1.5rem;
+			font-size:0.6rem;
+			color:#999;
+		}
+		#section .hot{
+			width:15rem;
+			height:1.8rem;
+			border-bottom:0.1rem solid #dcdcdc;
+			overflow: hidden;
+			margin:0 0.5rem 0.75rem 0.5rem;
+		}
+		#section .hot div{
+			float:left;
+		}
+		#section .hot div span{
+			width:0.1rem;
+			height:0.75rem;
+			background:#d51938;
+			float:left;
+			margin:0.5rem 0.5rem 0 0;
+		}
+		#section .hot div p{
+			line-height:1.8rem;
+			font-size:0.8rem;
+		}
+		#section .hot h3{
+			float:right;
+			font-size:0.8rem;
+			line-height:1.8rem;
+		}
+		#section .main{
+			width:15rem;
+			margin:0.75rem 0.5rem 0 0.5rem;
+		}
+		#section .main li{
+			width:100%;
+			height:3rem;
+			margin-bottom:0.5rem;
+		}
+		#section .main img{
+			width:6rem;
+			height:3rem;
+			float:left;
+		}
+		#section .main .cen{
+			width:9rem;
+			height:3rem;
+			background:#f4f4f4;
+			float:left;
+			overflow: hidden;
+		}
+		#section .main .cen .left{
+			width:4.225rem;
+			height:1.7rem;
+			float:left;
+			margin-left:0.55rem;
+			color:#999;
+			margin-top:0.6rem;
+			font-size:0.6rem;
+		}
+		#section .main .cen .left p{
+			line-height:0.85rem;
+		}
+		#section .main .cen .left div{
+			line-height:0.85rem;
+		}
+		#section .main .cen .left div span{
+			float:left;
+		}
+		#section .main .cen .left div .on{
+			color:#c7223d;
+		}
+		#section .main .cen .left div a{
+			margin-left:0.7rem;
+			float:left;
+			color:#999;
+			text-decoration:line-through;
+		}
+		#section .main .cen .right{
+			width:4.225rem;
+			line-height:1.7rem;
+			float:left;
+			color:#999;
+			margin-top:0.6rem;
+			font-size:0.6rem;
+		}
+		#section .main .cen .right a{
+			margin-left:0.7rem;
+			float:right;
+			color:#c7223d;
+		}
+		#section .main .cen .right span{
+			margin:0 0.5rem 0 0.5rem;
+			float:right;
+		}
+		#section .tags{
+			width:15rem;
+			text-align:center;
+			height:2rem;
+			background:#f5f5f5;
+			line-height:2rem;
+			margin: 0 0.5rem 0.5rem 0.5rem;
+			color:#666666;
+			font-size:0.7rem;
+		}
+		#section .guide{
+			width:15rem;
+			margin: 0 0.5rem 0.5rem 0.5rem;
+			overflow: hidden;
+		}
+		#section .guide img{
+			display:block;
+			height:8.8rem;
+			width:3.75rem;
+			float:left;
+		}
+		#section .guide div{
+			float:left;
+			width:11.20rem;
+			height:8.775rem;
+			border-top:0.025rem solid #eeeeee;
+			border-left:0.025rem solid #eeeeee;
+			overflow: hidden;
+		}
+		#section .guide div a{
+			width:3.708rem;
+			height:2.17rem;
+			line-height:2.15rem;
+			text-align:center;
+			color:#999;
+			font-size:0.65rem;
+			border-bottom:0.025rem solid #eeeeee;
+			border-right:0.025rem solid #eeeeee;
+			display:block;
+			float:left;
+		}
+		#section .guide div .active{
+			color:#d51942;
+		}
+		#section .friendlink{
+			width:15rem;
+			margin: 0.5rem 0.5rem;
+			display: -webkit-box;
+		}
+		#section .friendlink a{
+			-webkit-box-flex:1;
+			display:block;
+		}
+		#section .friendlink img{
+			width:100%;
+			height:100%;
+		}
+		#footer{
+			width:16rem;
+			height:2.2rem;
+			background:#f8f8f8;
+		}
+		#footer a{
+			display:block;
+			float:left;
+			color:#000;
+			font-size:0.65rem;
+			line-height:2.2rem;
+		}
+		#footer .left{
+			margin:0 1.2rem 0 0.75rem;
+		}
+		#footer div{
+			float:right;
+			overflow: hidden;
+		}
+		#footer div span{
+			float:right;
+			border:17px solid transparent;
+			border-bottom:17px solid #ccc;
+			margin:0.75rem 0.6rem 0 0.5rem;
+		}
+	</style>
+	<script>
+		window.addEventListener('DOMContentLoaded',function(){
+			var oTab=document.getElementById('tab');
+			var aLi=oTab.children;
+			var oTab1=document.getElementById('tab1');
+			var aSpan=oTab1.children;
+			var iNow=1;
+			var x=-iNow*aLi[0].offsetWidth;
+			var bReady=true;
+			var timer=null;
+			oTab.addEventListener('touchstart',function(ev){
+				clearInterval(timer);
+				if(!bReady){return;}
+				bReady=false;
+				var downX=ev.targetTouches[0].pageX;
+				var disX=downX-x;
+				oTab.style.transition='null';
+				function fnMove(ev){
+					x=ev.targetTouches[0].pageX-disX;
+					oTab.style.transform='translate('+x+'px)';
+				}
+				function fnEnd(ev){
+					endX=ev.changedTouches[0].pageX;
+					if(Math.abs(downX-endX)>50){
+						if(downX-endX>0){
+							iNow++;
+							if(iNow==aLi.length){
+								iNow=aLi.length-1;
+							}
+						}else{
+							iNow--;
+							if(iNow<0){
+								iNow=0;
+							}
+						}
+					}
+					x=-iNow*aLi[0].offsetWidth;
+					oTab.style.transition='400ms all linear';
+					oTab.style.transform='translate('+x+'px)';
+					oTab.addEventListener('transitionend',function(){
+						if(iNow==aLi.length-1){
+							iNow=1;
+						}
+						if(iNow==0){
+							iNow=aLi.length-2;
+						}
+						x=-iNow*aLi[0].offsetWidth;
+						document.title=iNow;
+						oTab.style.transition='none';
+						oTab.style.transform='translate('+x+'px)';
+						bReady=true;
+						for(var i=0; i<aSpan.length; i++){
+							aSpan[i].className='';
+						}
+						aSpan[iNow-1].className='active';
+					},false);
+					document.removeEventListener('touchmove',fnMove,false);
+					document.removeEventListener('touchend',fnEnd,false);
+					time();
+				}
+				document.addEventListener('touchmove',fnMove,false);
+				document.addEventListener('touchend',fnEnd,false);
+			},false);
+			for(var i=0; i<aSpan.length; i++){
+				aSpan[i].index=i;
+				aSpan[i].onclick=function(){
+					for(var i=0; i<aSpan.length; i++){
+						aSpan[i].className='';
+					}
+					aSpan[this.index].className='active';
+					iNow=this.index+1;
+					x=-iNow*aLi[0].offsetWidth;
+					oTab.style.transition='400ms all linear';
+					oTab.style.transform='translate('+x+'px)';	
+				};
+			}
+			oTab1.onmouseover=function(){
+				clearInterval(timer);
+			};
+			oTab1.onmouseout=function(){
+				time();
+			};
+			function time(){
+				timer=setInterval(function(){
+					iNow++;
+					x=-iNow*aLi[0].offsetWidth;
+					oTab.style.transition='400ms all linear';
+					oTab.style.transform='translate('+x+'px)';
+					oTab.addEventListener('transitionend',function(){
+						if(iNow==aLi.length-1){
+							iNow=1;
+						}
+						if(iNow==0){
+							iNow=aLi.length-2;
+						}
+						x=-iNow*aLi[0].offsetWidth;
+						document.title=iNow;
+						oTab.style.transition='none';
+						oTab.style.transform='translate('+x+'px)';
+						bReady=true;
+						for(var i=0; i<aSpan.length; i++){
+							aSpan[i].className='';
+						}
+						aSpan[iNow-1].className='active';
+					},false);
+				},2000);
+			}
+			time();
+		},false);
+	</script>
 </head>
-
 <body>
 <div id="box">
-    <ul>
-        <li style="background: green">3</li>
-        <li style="background: red">0</li>
-        <li style="background:yellow">1</li>
-        <li style="background: blue">2</li>
-        <li style="background: green">3</li>
-        <li style="background: red">0</li>
-    </ul>
-</div>
-
+	<header id="header">
+		<div></div>
+		<h1>聚划算</h1>
+	</header>
+	<section id="section">
+		<ul class="tab" id="tab">
+			<li><img src="images/meizi.jpg"/></li>
+			<li><img src="images/intro_09.png"/></li>
+			<li><img src="images/4.jpg"/></li>
+			<li><img src="images/meizi.jpg"/></li>
+			<li><img src="images/4.jpg"/></li>
+			<li><img src="images/meizi.jpg"/></li>
+			<li><img src="images/intro_09.png"/></li>
+		</ul>
+		<div class="tab1" id="tab1">
+			<span class="active"></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		<ul class="nav">
+			<li><img src="images/intro_16.png"/><a href="javasrcipt:;">商品</a></li>
+			<li><img src="images/intro_18.png"/><a href="javasrcipt:;">生活</a></li>
+			<li><img src="images/intro_21.png"/><a href="javasrcipt:;">品牌</a></li>
+			<li><img src="images/intro_23.png"/><a href="javasrcipt:;">聚宝盆</a></li>
+			<li><img src="images/intro_32.png"/><a href="javasrcipt:;">聚名品</a></li>
+			<li><img src="images/intro_33.png"/><a href="javasrcipt:;">聚家装</a></li>
+			<li><img src="images/intro_34.png"/><a href="javasrcipt:;">聚透</a></li>
+			<li><img src="images/intro_35.png"/><a href="javasrcipt:;">客户端</a></li>
+		</ul>
+		<div class="hot">
+			<div>
+				<span></span>
+				<p>聚划算热卖排行榜</p>
+			</div>
+			<h3>TOP10</h3>
+		</div>
+		<ul class="main">
+			<li>
+				<img src="images/intro_41.png"/>
+				<div class="cen">
+					<div class="left">
+						<p>已售 565453</p>
+						<div>
+							<span class="on">1.6</span>
+							<span>折</span>
+							<a href="javasrcipt:;">￥4546</a>
+						</div>
+					</div>
+					<div class="right">
+						<span>></span>
+						<a href="javasrcipt:;">￥3456</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<img src="images/intro_44.png"/>
+				<div class="cen">
+					<div class="left">
+						<p>已售 235647</p>
+						<div>
+							<span class="on">2</span>
+							<span>折</span>
+							<a href="javasrcipt:;">￥6453</a>
+						</div>
+					</div>
+					<div class="right">
+						<span>></span>
+						<a href="javasrcipt:;">￥4575</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<img src="images/intro_46.png"/>
+				<div class="cen">
+					<div class="left">
+						<p>已售 5463445</p>
+						<div>
+							<span class="on">3</span>
+							<span>折</span>
+							<a href="javasrcipt:;">￥3534</a>
+						</div>
+					</div>
+					<div class="right">
+						<span>></span>
+						<a href="javasrcipt:;">￥3432</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<img src="images/intro_48.png"/>
+				<div class="cen">
+					<div class="left">
+						<p>已售 2442424</p>
+						<div>
+							<span class="on">5.5</span>
+							<span>折</span>
+							<a href="javasrcipt:;">￥5454</a>
+						</div>
+					</div>
+					<div class="right">
+						<span>></span>
+						<a href="javasrcipt:;">￥4233</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<img src="images/intro_51.png"/>
+				<div class="cen">
+					<div class="left">
+						<p>已售 45645</p>
+						<div>
+							<span class="on">5.3</span>
+							<span>折</span>
+							<a href="javasrcipt:;">￥4645</a>
+						</div>
+					</div>
+					<div class="right">
+						<span>></span>
+						<a href="javasrcipt:;">￥5643</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<img src="images/intro_53.png"/>
+				<div class="cen">
+					<div class="left">
+						<p>已售 23435</p>
+						<div>
+							<span class="on">5.3</span>
+							<span>折</span>
+							<a href="javasrcipt:;">￥4523</a>
+						</div>
+					</div>
+					<div class="right">
+						<span>></span>
+						<a href="javasrcipt:;">￥3546</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<img src="images/intro_59.png"/>
+				<div class="cen">
+					<div class="left">
+						<p>已售 57564</p>
+						<div>
+							<span class="on">5.3</span>
+							<span>折</span>
+							<a href="javasrcipt:;">￥4233</a>
+						</div>
+					</div>
+					<div class="right">
+						<span>></span>
+						<a href="javasrcipt:;">￥5353</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<img src="images/intro_66.png"/>
+				<div class="cen">
+					<div class="left">
+						<p>已售 234253</p>
+						<div>
+							<span class="on">5.3</span>
+							<span>折</span>
+							<a href="javasrcipt:;">￥6345</a>
+						</div>
+					</div>
+					<div class="right">
+						<span>></span>
+						<a href="javasrcipt:;">￥2535</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<img src="images/intro_70.png"/>
+				<div class="cen">
+					<div class="left">
+						<p>已售 12341245</p>
+						<div>
+							<span class="on">3.5</span>
+							<span>折</span>
+							<a href="javasrcipt:;">￥1223</a>
+						</div>
+					</div>
+					<div class="right">
+						<span>></span>
+						<a href="javasrcipt:;">￥6352</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<img src="images/intro_72.png"/>
+				<div class="cen">
+					<div class="left">
+						<p>已售 346235</p>
+						<div>
+							<span class="on">5.3</span>
+							<span>折</span>
+							<a href="javasrcipt:;">￥4665</a>
+						</div>
+					</div>
+					<div class="right">
+						<span>></span>
+						<a href="javasrcipt:;">￥6353</a>
+					</div>
+				</div>
+			</li>
+		</ul>
+		<p class="tags">更多划算 逛起来!</p>
+		<div class="guide">
+			<img src="images/intro_74.png"/>
+			<div>
+				<a href="javascript:;">服饰</a>
+				<a href="javascript:;" class="active">配饰</a>
+				<a href="javascript:;">美妆</a>
+				<a href="javascript:;">鞋包</a>
+				<a href="javascript:;">食品</a>
+				<a href="javascript:;" class="active">家居</a>
+				<a href="javascript:;">运动</a>
+				<a href="javascript:;" class="active">电器</a>
+				<a href="javascript:;">百货</a>
+				<a href="javascript:;">母婴</a>
+				<a href="javascript:;">数码</a>
+				<a href="javascript:;">更多</a>
+			</div>
+		</div>
+		<p class="tags">精彩商品 逛起来!</p>
+		<div class="guide">
+			<img src="images/intro_82.png"/>
+			<div>
+				<a href="javascript:;" class="active">美食</a>
+				<a href="javascript:;">教育</a>
+				<a href="javascript:;">酒店</a>
+				<a href="javascript:;">电影</a>
+				<a href="javascript:;">生活服务</a>
+				<a href="javascript:;" class="active">卡卷</a>
+				<a href="javascript:;">摄影</a>
+				<a href="javascript:;" class="active">精油生鲜</a>
+				<a href="javascript:;">门票</a>
+				<a href="javascript:;">休闲娱乐</a>
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+			</div>
+		</div>
+		<p class="tags">品质生活 逛起来!</p>
+		<div class="guide">
+			<img src="images/intro_94.png"/>
+			<div>
+				<a href="javascript:;">七匹狼</a>
+				<a href="javascript:;" class="active">粉红女...</a>
+				<a href="javascript:;">卓诗尼</a>
+				<a href="javascript:;" class="active">收纳博士</a>
+				<a href="javascript:;">惠氏</a>
+				<a href="javascript:;">夏乐</a>
+				<a href="javascript:;">帕克伦</a>
+				<a href="javascript:;">古今</a>
+				<a href="javascript:;" class="active">九牧</a>
+				<a href="javascript:;">若奥</a>
+				<a href="javascript:;">红豆</a>
+				<a href="javascript:;">曼秀雷敦</a>
+			</div>
+		</div>
+		<p class="tags">品质折扣 逛起来!</p>
+		<div class="friendlink">
+			<a href="javasrcipt:;"><img src="images/intro_102.png"/></a>
+			<a href="javasrcipt:;"><img src="images/intro_103.png"/></a>
+			<a href="javasrcipt:;"><img src="images/intro_105.png"/></a>
+		</div>
+	</section>
+	<footer id="footer">
+		<a href="javasrcipt:;" class="left">登录</a>
+		<a href="javasrcipt:;">注册</a>
+		<div>
+			<span></span>
+			<a>TOP</a>
+		</div>
+	</footer>
+<div>
 </body>
 </html>

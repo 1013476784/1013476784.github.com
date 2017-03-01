@@ -1,0 +1,13 @@
+@charset "utf-8";
+/* CSS Document */
+h1,h2,h3,h4,h5,h6,p,ul,ol,body,dt,dl,dd,input,textarea{ margin:0; padding:0;}
+a{ color:#999; text-decoration:none;}
+img{ vertical-align:top; border:none;}
+li{ list-style:none;}
+input,textarea{border:none;background:none;outline:none;}
+textarea{}
+.fl{ float:left;}
+.fr{ float:right;}
+.clearfix:after{ content:''; display:block; clear:both;}
+body{ font-size:30px; font-family:'微软雅黑'; color:#d4d2d3;}
+.w{ width:1210px; margin:0 auto;}
